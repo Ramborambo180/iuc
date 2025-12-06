@@ -1,0 +1,8 @@
+{
+  "name": "IUC Portal",
+  "description": "A comprehensive university management system featuring dashboards for Admins, Teachers, and Students, including chat, timetables, and grade management.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
+}

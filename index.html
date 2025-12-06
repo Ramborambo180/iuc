@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>IUC Portal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <script>
+      // Immediate polyfill execution to catch any storage access issues early
+      (function() {
+        function createMemoryStorage() {
+          var _data = {};
+          return {
+            getItem: function(key) { return _data[key] || null; },
+            setItem: function(key, value) { _data[key] = String(value); },
+            removeItem: function(key) { delete _data[key]; },
+            clear: function() { _data = {}; },
+            key: function(index) { return Object.keys(_data)[index] || null; },
+            get length() { return Object.keys(_data).length; }
+          };
+        }
+
+        function shimStorage(type) {
+          try {
+            var test = '__storage_test__';
+            window[type].setItem(test, test);
+            window[type].removeItem(test);
+          } catch (e) {
+            console.warn('Polyfilling ' + type + ' due to restriction: ' + e.message);
+            try {
+              var mock = createMemoryStorage();
+              Object.defineProperty(window, type, {
+                value: mock,
+                configurable: true,
+                writable: true
+              });
+            } catch (err) {
+              console.error('Failed to polyfill ' + type + ': ' + err.message);
+            }
+          }
+        }
+
+        shimStorage('localStorage');
+        shimStorage('sessionStorage');
+      })();
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Inter', 'sans-serif'],
+            },
+            colors: {
+              primary: '#00539C',
+              'primary-dark': '#003d73',
+              accent: '#FFD700',
+              'bg-light': '#F4F6F8',
+              'bg-dark': '#101722',
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      .material-symbols-outlined.fill {
+        font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      /* Hide scrollbar for Chrome, Safari and Opera */
+      .no-scrollbar::-webkit-scrollbar {
+          display: none;
+      }
+      /* Hide scrollbar for IE, Edge and Firefox */
+      .no-scrollbar {
+          -ms-overflow-style: none;  /* IE and Edge */
+          scrollbar-width: none;  /* Firefox */
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react": "https://aistudiocdn.com/react@^19.2.1",
+    "react/": "https://aistudiocdn.com/react@^19.2.1/",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.1/",
+    "recharts": "https://aistudiocdn.com/recharts@^3.5.1",
+    "react-router-dom": "https://aistudiocdn.com/react-router-dom@^7.10.1"
+  }
+}
+</script>
+</head>
+  <body class="bg-bg-light text-slate-800 antialiased">
+    <div id="root"></div>
+  </body>
+</html>
